@@ -17,6 +17,7 @@ class dumper:
     def set_dates(self, dates=None):
 
         if dates is not None:
+            #allows for direct date selection
             self.start_date = datetime.strptime(dates[0], '%Y-%m-%d')
             self.end_date = datetime.strptime(dates[1], '%Y-%m-%d')
         else:
@@ -39,9 +40,8 @@ class dumper:
         days = [(self.start_date + timedelta(i)) for i in range(delta.days + 1)]    #collects all dates form the period
 
         for day in days:
-            str_day = day.strftime("%Y%m%d18")
-            url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(str_day)
-
+            str_day = day.strftime("%Y%m%d")
+            url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(str_day + "06")
 
             dest_dir =  (Path(__file__).resolve().parent / day.strftime("%Y_%B"))
             try:
@@ -51,6 +51,8 @@ class dumper:
 
             src = dest_dir / ("{}.meteo.png".format(str_day))
 
+            #TODO: optimise the procces
+
             resp = urllib.request.urlopen(url)
             respHtml = resp.read()
             binfile = open(src ,"wb")
@@ -58,9 +60,7 @@ class dumper:
             binfile.close()
 
 
-
 if __name__ == "__main__":
     d1 = dumper()
-    d1.set_dates(("2019-01-01", "2019-02-28"))
-    #d1.set_dates()
+    d1.set_dates()
     d1.dump()
