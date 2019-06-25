@@ -43,7 +43,7 @@ class dumper:
             str_day = day.strftime("%Y%m%d")
             url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(str_day + "06")
 
-            dest_dir =  (Path(__file__).resolve().parent / day.strftime("%Y_%B"))
+            dest_dir =  (Path(__file__).resolve().parent / day.strftime("%Y_%m_%B"))
             try:
                 dest_dir.mkdir()
             except FileExistsError:
