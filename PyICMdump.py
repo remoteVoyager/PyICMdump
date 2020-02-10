@@ -63,6 +63,7 @@ class dumper:
 
             print("Forecast for: " + day.strftime("%d %b %Y") + " saved")
 
+
 def get_current_forecast():
     # choose latest forecast
     # forecasts are released with 5 hour delay
@@ -100,6 +101,7 @@ def get_current_forecast():
     resp = requests.get(url)
     img = Image.open(BytesIO(resp.content))
     img.show()
+
 
 # TODO: interfejs
 
