@@ -12,9 +12,20 @@ from PIL import Image
 
 class dumper:
 
-    def __init__(self):
+    def __init__(self, forecast_time = None):
         self.start_date = None
         self.end_date = None
+
+        self.forecasts_list = ['00', '06', '12', '18']
+
+        if forecast_time is None:
+            self.forecasts = ['06']
+        elif forecast_time is 'all':
+            self.forecasts = self.forecasts_list
+        elif forecast_time in self.forecasts_list:
+            self.forecasts = [ forecast_time ]
+        else:
+            raise ValueError('Nie ma takiej prognozy!')
 
     def set_dates(self, dates=None):
 
@@ -41,30 +52,39 @@ class dumper:
         days = [(self.start_date + timedelta(i)) for i in range(delta.days + 1)]  # collects all dates form the period
 
         for day in days:
-            str_day = day.strftime("%Y%m%d")
-            url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(
-                str_day + "06")
 
+            # format day for use in path 
+            str_day = day.strftime("%Y%m%d")
+            
+            # if not exists create destination directory
             dest_dir = (Path(__file__).resolve().parent / day.strftime("%Y_%m_%B"))
             try:
                 dest_dir.mkdir()
             except FileExistsError:
                 pass
+            
+            # download and save meteogram for every chosen forecast time
+            for forecast in self.forecasts:
 
-            src = dest_dir / ("{}.meteo.png".format(str_day))
+                # create url
+                url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(str_day + forecast)
 
-            # TODO: optimise the procces
+                # create final file path
+                src = dest_dir / ("{}_{}.meteo.png".format(str_day, forecast))
 
-            resp = urllib.request.urlopen(url)
-            respHtml = resp.read()
-            binfile = open(src, "wb")
-            binfile.write(respHtml)
-            binfile.close()
+                # download forecast
+                resp = urllib.request.urlopen(url)
+                respHtml = resp.read()
+                binfile = open(src, "wb")
 
-            print("Forecast for: " + day.strftime("%d %b %Y") + " saved")
+                # save forecast
+                binfile.write(respHtml)
+                binfile.close()
+
+                print("Forecast for: " + day.strftime("%d %b %Y") + ' time: ' + forecast + " saved")
 
 
-def get_current_forecast():
+def get_current_forecast(show=True):
     # choose latest forecast
     # forecasts are released with 5 hour delay
     now_utc = datetime.utcnow()
@@ -97,17 +117,12 @@ def get_current_forecast():
     url = "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate={}&row=406&col=250&lang=pl".format(
         day.strftime("%Y%m%d") + release)
 
-    print(release)
     resp = requests.get(url)
     img = Image.open(BytesIO(resp.content))
-    img.show()
+    
+    if show:
+        print('Displaying forecast for: {}, time: {}'.format(day.strftime("%d.%m.%Y"), release))
+        img.show()
 
-
-# TODO: interfejs
-
-#
-# if __name__ == "__main__":
-#     d1 = dumper()
-#     d1.set_dates()
-#     d1.dump()
-get_current_forecast()
+    else:
+        return img
