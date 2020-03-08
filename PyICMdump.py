@@ -46,7 +46,7 @@ class dumper:
 
         assert self.start_date < self.end_date, "Start date must be earlier than end date"
 
-    def dump(self):
+    def dump(self, app_path = __file__):
 
         delta = self.end_date - self.start_date
         days = [(self.start_date + timedelta(i)) for i in range(delta.days + 1)]  # collects all dates form the period
@@ -57,7 +57,7 @@ class dumper:
             str_day = day.strftime("%Y%m%d")
             
             # if not exists create destination directory
-            dest_dir = (Path(__file__).resolve().parent / day.strftime("%Y_%m_%B"))
+            dest_dir = (Path(app_path).resolve() / day.strftime("%Y_%m_%B"))
             try:
                 dest_dir.mkdir()
             except FileExistsError:

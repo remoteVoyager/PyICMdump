@@ -14,6 +14,8 @@ Currently availible functionalities:
     Retrieves newest availible forecast and displays it.
 
 * _PyICMdump_cli.py_ serves as quick CLI, currently covers current forecast fetch and batch forecast download
+
+* Executable _PyICMdump_cli.py_ availible in exec/build. Build with pyinstaller on Windows.
     
 Future functionalities:
 
