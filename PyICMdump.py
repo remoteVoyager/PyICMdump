@@ -18,9 +18,9 @@ class dumper:
 
         self.forecasts_list = ['00', '06', '12', '18']
 
-        if forecast_time is None:
+        if forecast_time is None or forecast_time == '':
             self.forecasts = ['06']
-        elif forecast_time is 'all':
+        elif forecast_time == 'all':
             self.forecasts = self.forecasts_list
         elif forecast_time in self.forecasts_list:
             self.forecasts = [ forecast_time ]
@@ -34,7 +34,7 @@ class dumper:
             self.start_date = datetime.strptime(dates[0], '%Y-%m-%d')
             self.end_date = datetime.strptime(dates[1], '%Y-%m-%d')
         else:
-            print("Enter dates like \'YYYY-MM-DD\'\n")
+            print("\nEnter dates like \'YYYY-MM-DD\'\n")
 
             while True:
                 try:

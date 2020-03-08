@@ -2,8 +2,8 @@
 
 import PyICMdump as icm
 
-menu_str = 'Enter:\t [1] - Get current ICM forecast\t [2] - batch download forecasts from specified time range'
-forecast_options_str = 'Select forecasts:\t no input - default(06:00 UTC),  00 - 00:00 UTC, 06 - 06:00 UTC, 12 - 12:00 UTC, 18 - 18:00 UTC, all - all'
+menu_str = '\nEnter:\t [1] - Get current ICM forecast\t [2] - batch download forecasts from specified time range:\n: '
+forecast_options_str = '\nSelect forecasts:\t no input - default(06:00 UTC),  00 - 00:00 UTC, 06 - 06:00 UTC, 12 - 12:00 UTC, 18 - 18:00 UTC, all - all\n: '
 
 # menu loop
 
@@ -15,7 +15,6 @@ while True:
     if  usr_input == '1':
         icm.get_current_forecast()
     elif usr_input == '2':
-        
         # TODO: fix forecast selection, currently all throws error
 
         #setup forecast options
@@ -24,5 +23,7 @@ while True:
         icd.set_dates()
 
         icd.dump()
-    
+    else:
+        input('Press enter to close')
+        break
 
