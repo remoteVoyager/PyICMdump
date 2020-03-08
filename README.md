@@ -12,6 +12,8 @@ Currently availible functionalities:
 * _get_current_forecast_ function:
  
     Retrieves newest availible forecast and displays it.
+
+* _PyICMdump_cli.py_ serves as quick CLI, currently covers current forecast fetch and batch forecast download
     
 Future functionalities:
 
