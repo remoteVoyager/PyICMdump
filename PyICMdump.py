@@ -3,12 +3,13 @@
 # Created by Michal Lukaszewicz (remoteVoyager) at 2019-03-14
 # mlukaszewicz2@gmail.com
 
-import datetime, urllib.request, requests
+import datetime, urllib.request, requests, argparse
 from datetime import datetime, timedelta, date
 from pathlib import Path
 from io import BytesIO
 from PIL import Image
 
+# TODO: allow async
 
 class dumper:
 
@@ -126,3 +127,20 @@ def get_current_forecast(show=True):
 
     else:
         return img
+
+
+if __name__ == "__main__":
+    
+    #argparse 
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("-l", "--location", help="specify desired forecast location")
+    parser.add_argument("start_date")
+    parser.add_argument("end_date")
+    
+    args = parser.parse_args()
+
+    # TODO: utilize arguments to trigger usage
+
+
+    
