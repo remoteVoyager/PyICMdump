@@ -19,6 +19,8 @@ Currently availible functionalities:
     
 Future functionalities:
 
+* argparse interace
+* async download
 * GUI
 * more flexible setup
 * option to use in other software
